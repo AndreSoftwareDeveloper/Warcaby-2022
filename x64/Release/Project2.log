@@ -1,0 +1,47 @@
+﻿  Main.cpp
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(65,1): warning C4305: "argument": obcięcie z "double" do "float"
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(66,57): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(66,40): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(85,1): warning C4305: "argument": obcięcie z "double" do "float"
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(91,1): warning C4305: "argument": obcięcie z "double" do "float"
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(92,42): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(92,39): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(126,42): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(126,39): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(165,42): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(165,39): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(279,27): warning C4244: "=": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(280,27): warning C4244: "=": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(528,111): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(528,77): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(551,39): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Warcaby 2022\Main.cpp(551,28): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+  Trwa generowanie kodu
+  Previous IPDB not found, fall back to full compilation.
+  All 173 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Zakończono generowanie kodu
+  Project2.vcxproj -> C:\Users\Andriej\source\repos\Warcaby 2022\x64\Release\Project2.exe

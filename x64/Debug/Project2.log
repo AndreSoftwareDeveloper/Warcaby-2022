@@ -1,0 +1,27 @@
+﻿  Main.cpp
+C:\Users\Andriej\source\repos\Project2\Main.cpp(64,1): warning C4305: "argument": obcięcie z "double" do "float"
+C:\Users\Andriej\source\repos\Project2\Main.cpp(65,57): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Project2\Main.cpp(65,40): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Project2\Main.cpp(83,1): warning C4305: "argument": obcięcie z "double" do "float"
+C:\Users\Andriej\source\repos\Project2\Main.cpp(158,111): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Andriej\source\repos\Project2\Main.cpp(158,77): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Andriej\source\repos\Project2\Main.cpp(179,39): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Andriej\source\repos\Project2\Main.cpp(179,28): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+  LINK : brak bazy danych programu C:\Users\Andriej\source\repos\Project2\x64\Debug\Project2.pdb; zostanie wykonana pełna konsolidacja
+  Project2.vcxproj -> C:\Users\Andriej\source\repos\Project2\x64\Debug\Project2.exe
