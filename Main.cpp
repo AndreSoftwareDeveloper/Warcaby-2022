@@ -1,4 +1,4 @@
-﻿#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <locale.h>
 #include <string>
@@ -8,176 +8,174 @@ using namespace sf;
 using namespace std;
 
 RenderWindow mainWindow(VideoMode(1024, 820, 32), "Warcaby 2022");
-
+bool b_BeginPlayer = true;
 
 class Board
 {
-public:
-    Board()
-    {
-        LoadTextures();
-        CalculatePosition();
-
-        for (int i = 0; i < 64; i++)
+    public:
+        Board()
         {
-            if ((i >= 0 && i < 8) || (i >= 16 && i < 24) || (i >= 32 && i < 40) || (i >= 48 && i < 56))
+            LoadTextures();
+            CalculatePosition();
+
+            for (int i = 0; i < 64; i++)
             {
-                if (i % 2 == 0)
-                    BoardFields[i].setTexture(Texture_WhiteSquare);
+                if ((i >= 0 && i < 8) || (i >= 16 && i < 24) || (i >= 32 && i < 40) || (i >= 48 && i < 56))
+                {
+                    if (i % 2 == 0)
+                        BoardFields[i].setTexture(Texture_WhiteSquare);
+                    else
+                        BoardFields[i].setTexture(Texture_BlackSquare);
+                }
                 else
-                    BoardFields[i].setTexture(Texture_BlackSquare);
-            }
-            else
-            {
-                if (i % 2 == 0)
-                    BoardFields[i].setTexture(Texture_BlackSquare);
-                else
-                    BoardFields[i].setTexture(Texture_WhiteSquare);
+                {
+                    if (i % 2 == 0)
+                        BoardFields[i].setTexture(Texture_BlackSquare);
+                    else
+                        BoardFields[i].setTexture(Texture_WhiteSquare);
+                }
             }
         }
-    }
 
-    void ShowBoard()
-    {
-        for (int i = 0; i < 64; i++)
+        void ShowBoard()
         {
-            mainWindow.draw(BoardFields[i]);
-        }
-    }
-
-private:
-    Sprite BoardFields[64];
-    int i_YAxisDistance = 0, i_XAxisDistance = 120;
-    Texture Texture_WhiteSquare, Texture_BlackSquare;
-
-    void LoadTextures()
-    {
-        if (!(Texture_WhiteSquare.loadFromFile("WhiteSquare.png")))
-            cout << "Error while loading white square texture." << "\n";
-        if (!(Texture_BlackSquare.loadFromFile("BlackSquare.png")))
-            cout << "Error while loading black square texture." << "\n";
-    }
-
-    void CalculatePosition()
-    {
-        for (int i = 0; i < 64; i++)
-        {
-            BoardFields[i].setScale(0.39, 0.39);
-            BoardFields[i].setPosition(i_XAxisDistance, i_YAxisDistance);
-            i_XAxisDistance += 95;
-            if (!((i + 1) % 8))
+            for (int i = 0; i < 64; i++)
             {
-                i_YAxisDistance += 95;
-                i_XAxisDistance = 120;
+                mainWindow.draw(BoardFields[i]);
             }
         }
-    }
+
+    private:
+        Sprite BoardFields[64];
+        int i_YAxisDistance = 0, i_XAxisDistance = 120;
+        Texture Texture_WhiteSquare, Texture_BlackSquare;
+
+        void LoadTextures()
+        {
+            if (!(Texture_WhiteSquare.loadFromFile("WhiteSquare.png")))
+                cout << "Error while loading white square texture." << "\n";
+            if (!(Texture_BlackSquare.loadFromFile("BlackSquare.png")))
+                cout << "Error while loading black square texture." << "\n";
+        }
+
+        void CalculatePosition()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                BoardFields[i].setScale(0.39, 0.39);
+                BoardFields[i].setPosition(i_XAxisDistance, i_YAxisDistance);
+                i_XAxisDistance += 95;
+                if (!((i + 1) % 8))
+                {
+                    i_YAxisDistance += 95;
+                    i_XAxisDistance = 120;
+                }
+            }
+        }
 };
 
 class Pawn
 {
-protected:
-    Sprite Sprite_SinglePawn;
-    Texture Texture_PawnTexture;
+    protected:
+        Sprite Sprite_SinglePawn;
+        Texture Texture_PawnTexture;
 
-    Pawn()
-    {
-        Sprite_SinglePawn.setScale(0.39, 0.39);
-        Sprite_SinglePawn.setPosition(215, 0);
-    }
+        Pawn()
+        {
+            Sprite_SinglePawn.setScale(0.39, 0.39);
+            Sprite_SinglePawn.setPosition(215, 0);
+        }
 
-    Pawn(int x, int y)
-    {
-        Sprite_SinglePawn.setScale(0.39, 0.39);
-        Sprite_SinglePawn.setPosition(x, y);
-    }
+        Pawn(int x, int y)
+        {
+            Sprite_SinglePawn.setScale(0.39, 0.39);
+            Sprite_SinglePawn.setPosition(x, y);
+        }
 
-    void MovePawn()
-    {
-        Sprite_SinglePawn.setPosition(310, 95);
-    }
+        void MovePawn()
+        {
+            Sprite_SinglePawn.setPosition(310, 95);
+        }
 };
-
-bool b_BeginPlayer = true;
 
 class BlackPawn :Pawn
 {
-public:
-    BlackPawn() :Pawn()
-    {
-        GetTexture();
-    }
+    public:
+        BlackPawn() :Pawn()
+        {
+            GetTexture();
+        }
 
-    BlackPawn(int x, int y) :Pawn(x, y)
-    {
-        GetTexture();
-    }
+        BlackPawn(int x, int y) :Pawn(x, y)
+        {
+            GetTexture();
+        }
 
-    void ShowPawn()
-    {
-        mainWindow.draw(Sprite_SinglePawn);
-    }
-    void MovePawn()
-    {
-        Pawn::MovePawn();
-    }
-    void MovePawn(int x, int y)
-    {
-        Sprite_SinglePawn.setPosition(x, y);
-        b_BeginPlayer = true;
-    }
-    Vector2f GetPawnPosition()
-    {
-        return Sprite_SinglePawn.getPosition();
-    }
+        void ShowPawn()
+        {
+            mainWindow.draw(Sprite_SinglePawn);
+        }
+        void MovePawn()
+        {
+            Pawn::MovePawn();
+        }
+        void MovePawn(int x, int y)
+        {
+            Sprite_SinglePawn.setPosition(x, y);
+            b_BeginPlayer = true;
+        }
+        Vector2f GetPawnPosition()
+        {
+            return Sprite_SinglePawn.getPosition();
+        }
 
-    void GetTexture()
-    {
-        if (!(Texture_PawnTexture.loadFromFile("PawnBlack.png")))
-            cout << "Error while loading black pawn texture." << "\n";
-        Sprite_SinglePawn.setTexture(Texture_PawnTexture);
-    }
+        void GetTexture()
+        {
+            if (!(Texture_PawnTexture.loadFromFile("PawnBlack.png")))
+                cout << "Error while loading black pawn texture." << "\n";
+            Sprite_SinglePawn.setTexture(Texture_PawnTexture);
+        }
 };
 
 class WhitePawn :Pawn
 {
-public:
-    WhitePawn() :Pawn()
-    {
-        GetTexture();
-    }
+    public:
+        WhitePawn() :Pawn()
+        {
+            GetTexture();
+        }
 
-    WhitePawn(int x, int y) :Pawn(x, y)
-    {
-        GetTexture();
-    }
+        WhitePawn(int x, int y) :Pawn(x, y)
+        {
+            GetTexture();
+        }
 
-    void ShowPawn()
-    {
-        mainWindow.draw(Sprite_SinglePawn);
-    }
-    void MovePawn()
-    {
-        Sprite_SinglePawn.setPosition(310, 95);
-    }
-    void MovePawn(int x, int y)
-    {
-        Sprite_SinglePawn.setPosition(x, y);
-        b_BeginPlayer = false;
-    }
+        void ShowPawn()
+        {
+            mainWindow.draw(Sprite_SinglePawn);
+        }
+        void MovePawn()
+        {
+            Sprite_SinglePawn.setPosition(310, 95);
+        }
+        void MovePawn(int x, int y)
+        {
+            Sprite_SinglePawn.setPosition(x, y);
+            b_BeginPlayer = false;
+        }
 
-    Vector2f GetPawnPosition()
-    {
-        return Sprite_SinglePawn.getPosition();
-    }
+        Vector2f GetPawnPosition()
+        {
+            return Sprite_SinglePawn.getPosition();
+        }
 
-private:
-    void GetTexture()
-    {
-        if (!(Texture_PawnTexture.loadFromFile("PawnWhite.png")))
-            cout << "Error while loading white pawn texture." << "\n";
-        Sprite_SinglePawn.setTexture(Texture_PawnTexture);
-    }
+    private:
+        void GetTexture()
+        {
+            if (!(Texture_PawnTexture.loadFromFile("PawnWhite.png")))
+                cout << "Error while loading white pawn texture." << "\n";
+            Sprite_SinglePawn.setTexture(Texture_PawnTexture);
+        }
 };
 
 WhitePawn Sprite_WhitePawns[12];
@@ -196,24 +194,24 @@ ProgramStates ProgramState;
 
 class Player
 {
-protected:
-    int i_Score = 0;
-    virtual void AddPoint() = 0;
+    protected:
+        int i_Score = 0;
+        virtual void AddPoint() = 0;
 };
 
 class WhitePlayer :Player
 {
-public:
-    Vector2f WhitePawnsPositions[12];    
-    void AddPoint()
-    {
-        i_Score++;
-        if (i_Score == 12)
+    public:
+        Vector2f WhitePawnsPositions[12];    
+        void AddPoint()
         {
-            cout << "Zwyciestwo gracza BIALEGO";
-            ProgramState = GameOver;            
+            i_Score++;
+            if (i_Score == 12)
+            {
+                cout << "Zwyciestwo gracza BIALEGO";
+                ProgramState = GameOver;            
+            }
         }
-    }
 };
 
 class BlackPlayer :Player
@@ -325,27 +323,18 @@ void MovePawnByPlayer(char c_SourceX, char c_SourceY, char c_DestinationX, char 
                             {
                                 if ((i != j && WhitePlayer1.WhitePawnsPositions[j] == DestinationVector) || (BlackPlayer1.BlackPawnsPositions[j] == DestinationVector))
                                     b_CanBeMoved = false;
-                                if (i_DestinationY == i_SourceY + 190)
+
+                                if ((i_DestinationY == i_SourceY + 190 && BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY - 95) ||
+                                    (i_DestinationY == i_SourceY - 190 && BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY + 95))
                                 {
-                                    if ((BlackPlayer1.BlackPawnsPositions[j].x == i_SourceX + 95) && (BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY - 95))
+                                    if (BlackPlayer1.BlackPawnsPositions[j].x == i_SourceX + 95)
                                     {
                                         TakeBlackPawn(BlackPlayer1.BlackPawnsPositions[j]);
                                         Sprite_WhitePawns[i].MovePawn(i_DestinationX, i_DestinationY);
-                                        b_CanBeMoved = true;                                        
+                                        b_CanBeMoved = true;
                                         continue;
                                     }
                                 }
-                                else
-                                    if (i_DestinationY == i_SourceY - 190)
-                                    {
-                                        if ((BlackPlayer1.BlackPawnsPositions[j].x == i_SourceX + 95) && (BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY + 95))
-                                        {
-                                            TakeBlackPawn(BlackPlayer1.BlackPawnsPositions[j]);
-                                            Sprite_WhitePawns[i].MovePawn(i_DestinationX, i_DestinationY);
-                                            b_CanBeMoved = true;                                            
-                                            continue;
-                                        }
-                                    }
                             }
                             if (!b_CanBeMoved)
                                 PrintAgainstTheRulesMessage();
@@ -358,27 +347,16 @@ void MovePawnByPlayer(char c_SourceX, char c_SourceY, char c_DestinationX, char 
                                     if ((i != j && WhitePlayer1.WhitePawnsPositions[j] == DestinationVector) || (BlackPlayer1.BlackPawnsPositions[j] == DestinationVector))
                                         b_CanBeMoved = false;
 
-                                    if (i_DestinationY == i_SourceY + 190)
+                                    if ((i_DestinationY == i_SourceY + 190 || i_DestinationY == i_SourceY - 190) &&
+                                        BlackPlayer1.BlackPawnsPositions[j].x == i_SourceX - 95 &&
+                                        ((i_DestinationY == i_SourceY + 190 && BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY - 95) ||
+                                        (i_DestinationY == i_SourceY - 190 && BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY + 95)))
                                     {
-                                        if ((BlackPlayer1.BlackPawnsPositions[j].x == i_SourceX - 95) && (BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY - 95))
-                                        {
-                                            TakeBlackPawn(BlackPlayer1.BlackPawnsPositions[j]);
-                                            Sprite_WhitePawns[i].MovePawn(i_DestinationX, i_DestinationY);
-                                            b_CanBeMoved = true;                                           
-                                            continue;
-                                        }
+                                        TakeBlackPawn(BlackPlayer1.BlackPawnsPositions[j]);
+                                        Sprite_WhitePawns[i].MovePawn(i_DestinationX, i_DestinationY);
+                                        b_CanBeMoved = true;
+                                        continue;
                                     }
-                                    else
-                                        if (i_DestinationY == i_SourceY - 190)
-                                        {
-                                            if ((BlackPlayer1.BlackPawnsPositions[j].x == i_SourceX - 95) && (BlackPlayer1.BlackPawnsPositions[j].y == i_DestinationY + 95))
-                                            {
-                                                TakeBlackPawn(BlackPlayer1.BlackPawnsPositions[j]);
-                                                Sprite_WhitePawns[i].MovePawn(i_DestinationX, i_DestinationY);
-                                                b_CanBeMoved = true;                                                
-                                                continue;
-                                            }
-                                        }
                                 }
                                 if (!b_CanBeMoved)
                                     PrintAgainstTheRulesMessage();
@@ -412,9 +390,8 @@ void MovePawnByPlayer(char c_SourceX, char c_SourceY, char c_DestinationX, char 
                             b_CanBeMoved = true;                            
                         }
                     }
-                    else
-                        if (!b_CanBeMoved)
-                            PrintAgainstTheRulesMessage();
+                    else if (!b_CanBeMoved)
+                        PrintAgainstTheRulesMessage();
                 }
                 else
                     if (i_DestinationY == i_SourceY - 190 || i_DestinationY == i_SourceY + 190)
@@ -426,26 +403,20 @@ void MovePawnByPlayer(char c_SourceX, char c_SourceY, char c_DestinationX, char 
                                 if ((i != j && BlackPlayer1.BlackPawnsPositions[j] == DestinationVector) || (WhitePlayer1.WhitePawnsPositions[j] == DestinationVector))
                                     b_CanBeMoved = false;
 
-                                if (i_DestinationY == i_SourceY - 190)
+                                if ((i_DestinationY == i_SourceY - 190 || i_DestinationY == i_SourceY + 190) &&
+                                    WhitePlayer1.WhitePawnsPositions[j].x == i_SourceX + 95)
                                 {
-                                    if ((WhitePlayer1.WhitePawnsPositions[j].x == i_SourceX + 95) && (WhitePlayer1.WhitePawnsPositions[j].y == i_DestinationY + 95))
+                                    int targetY = (i_DestinationY == i_SourceY - 190) ? i_DestinationY + 95 : i_DestinationY - 95;
+
+                                    if (WhitePlayer1.WhitePawnsPositions[j].y == targetY)
                                     {
-                                        TakeWhitePawn(WhitePlayer1.WhitePawnsPositions[j], Sprite_BlackPawns[i], i_DestinationX, i_DestinationY);                                        
-                                        b_CanBeMoved = true;                                        
+                                        TakeWhitePawn(WhitePlayer1.WhitePawnsPositions[j], Sprite_BlackPawns[i], i_DestinationX, i_DestinationY);
+                                        b_CanBeMoved = true;
                                         continue;
                                     }
                                 }
-                                else
-                                    if (i_DestinationY == i_SourceY + 190)
-                                    {
-                                        if ((WhitePlayer1.WhitePawnsPositions[j].x == i_SourceX + 95) && (WhitePlayer1.WhitePawnsPositions[j].y == i_DestinationY - 95))
-                                        {
-                                            TakeWhitePawn(WhitePlayer1.WhitePawnsPositions[j], Sprite_BlackPawns[i], i_DestinationX, i_DestinationY);
-                                            b_CanBeMoved = true;                                            
-                                            continue;
-                                        }
-                                    }
                             }
+
                             if (!b_CanBeMoved)
                                 PrintAgainstTheRulesMessage();
                         }
@@ -454,29 +425,28 @@ void MovePawnByPlayer(char c_SourceX, char c_SourceY, char c_DestinationX, char 
                             {
                                 for (int j = 0; j < 12; j++)
                                 {
-                                    if ((i != j && BlackPlayer1.BlackPawnsPositions[j] == DestinationVector) || (WhitePlayer1.WhitePawnsPositions[j] == DestinationVector))
-                                        b_CanBeMoved = false;
+                                    bool isMatchingDestination = BlackPlayer1.BlackPawnsPositions[j] == DestinationVector || WhitePlayer1.WhitePawnsPositions[j] == DestinationVector;
 
-                                    if (i_DestinationY == i_SourceY - 190)
+                                    if (isMatchingDestination)
                                     {
-                                        if ((WhitePlayer1.WhitePawnsPositions[j].x == i_SourceX - 95) && (WhitePlayer1.WhitePawnsPositions[j].y == i_DestinationY + 95))
+                                        b_CanBeMoved = false;
+                                        continue;
+                                    }
+
+                                    if ((i_DestinationY == i_SourceY - 190 || i_DestinationY == i_SourceY + 190) &&
+                                        WhitePlayer1.WhitePawnsPositions[j].x == i_SourceX - 95)
+                                    {
+                                        int targetY = (i_DestinationY == i_SourceY - 190) ? i_DestinationY + 95 : i_DestinationY - 95;
+
+                                        if (WhitePlayer1.WhitePawnsPositions[j].y == targetY)
                                         {
                                             TakeWhitePawn(WhitePlayer1.WhitePawnsPositions[j], Sprite_BlackPawns[i], i_DestinationX, i_DestinationY);
-                                            b_CanBeMoved = true;                                            
+                                            b_CanBeMoved = true;
                                             continue;
                                         }
                                     }
-                                    else
-                                        if (i_DestinationY == i_SourceY + 190)
-                                        {
-                                            if ((WhitePlayer1.WhitePawnsPositions[j].x == i_SourceX - 95) && (WhitePlayer1.WhitePawnsPositions[j].y == i_DestinationY - 95))
-                                            {
-                                                TakeWhitePawn(WhitePlayer1.WhitePawnsPositions[j], Sprite_BlackPawns[i], i_DestinationX, i_DestinationY);
-                                                b_CanBeMoved = true;                                                
-                                                continue;
-                                            }
-                                        }
                                 }
+
                                 if (!b_CanBeMoved)
                                     PrintAgainstTheRulesMessage();
                             }
@@ -493,16 +463,9 @@ void ArrangeThePawns()
     {
         for (int j = 0; j < 4; j++, i_Counter++)
         {
-            if (!(i % 2))
-            {
-                Sprite_WhitePawns[i_Counter].MovePawn(215 + 190 * j, 0 + 95 * i);
-                Sprite_BlackPawns[i_Counter].MovePawn(120 + 190 * j, 475 + 95 * i);
-            }                          
-            else
-            {
-                Sprite_WhitePawns[i_Counter].MovePawn(120 + 190 * j, 0 + 95 * i);
-                Sprite_BlackPawns[i_Counter].MovePawn(215 + 190 * j, 475 + 95 * i);
-            }                                      
+            int i_xMovingDirection = (!(i % 2)) ? 215 : 120;
+            Sprite_WhitePawns[i_Counter].MovePawn(i_xMovingDirection + 190 * j, 0 + 95 * i);
+            Sprite_BlackPawns[i_Counter].MovePawn((i_xMovingDirection == 215 ? 120 : 215) + 190 * j, 475 + 95 * i);
         }
     }
 }
@@ -558,48 +521,50 @@ void setTextParameters(Text& ButtonText, Font& MenuFont, string TextToDisplay = 
 
 int main()
 {
+    char c_SourceX, c_SourceY, c_DestinationX, c_DestinationY;
+    Text Text_PlayButton, Credits, AUTOR, PreviousScreen, ExitButton, GameOver;
     Font MenuFont;
+    Texture BackgroundFile, Texture_OnBoardPosition;
+    Sprite Sprite_MenuBackground, Sprite_OnBoardPosition;
+
     if (MenuFont.loadFromFile("melianes.ttf"))
         cout << "Font loaded properly.\n";
     else
         cout << "Eror while loading font.\n";
-    Texture BackgroundFile;
+    
     if (BackgroundFile.loadFromFile("BoardBackground.jpg"))
         cout << "Texture loaded properly.\n";
     else
         cout << "Eror while loading texture.\n";
-    Sprite MenuBackground;
-    MenuBackground.setTexture(BackgroundFile);
-    MenuBackground.setScale(0.75, 0.75);
-    MenuBackground.setPosition(40, 40);
-
-    Text Text_PlayButton, Credits, AUTOR, PreviousScreen, ExitButton, GameOver;
-    setTextParameters(Text_PlayButton, MenuFont, "Nowa gra", 440); //dać automatyczne wyśrodkowanie zamiast ręcznego podawania położenia w osi X     
+    
+    Sprite_MenuBackground.setTexture(BackgroundFile);
+    Sprite_MenuBackground.setScale(0.75, 0.75);
+    Sprite_MenuBackground.setPosition(40, 40);
+    
+    setTextParameters(Text_PlayButton, MenuFont, "Nowa gra", 440); // TODO: automatic centering instead of manual positioning in the X-axis   
     setTextParameters(Credits, MenuFont, "Autorzy", 450, 350);
     setTextParameters(AUTOR, MenuFont, "autor jest tylko jeden :)", 350, 300, 30, Color::Green);
     setTextParameters(PreviousScreen, MenuFont, "Powrót do menu", 100, 600, 30, Color::Blue);
     setTextParameters(ExitButton, MenuFont, "Koniec", 477, 400);
     setTextParameters(GameOver, MenuFont, "KONIEC GRY", 430, 300, 40, Color::Green);
-
-    Sprite Sprite_OnBoardPosition;
-    Texture Texture_OnBoardPosition;
+    
     Texture_OnBoardPosition.loadFromFile("numbers.png");
     Sprite_OnBoardPosition.setTexture(Texture_OnBoardPosition);
     Sprite_OnBoardPosition.setPosition(70, 15);
     
-    ArrangeThePawns();
-    char c_SourceX, c_SourceY, c_DestinationX, c_DestinationY;
+    ArrangeThePawns();    
 
     while (mainWindow.isOpen())
     {
         mainWindow.clear(Color(255, 255, 255));
+
         switch (ProgramState)
         {
-         case 0: mainWindow.draw(MenuBackground);
+         case 0: mainWindow.draw(Sprite_MenuBackground);
             mainWindow.draw(Credits);
             mainWindow.draw(Text_PlayButton);
             mainWindow.draw(ExitButton); break;
-         case 1: mainWindow.draw(MenuBackground);
+         case 1: mainWindow.draw(Sprite_MenuBackground);
             mainWindow.draw(AUTOR);
             mainWindow.draw(PreviousScreen); break;
          case 2:
@@ -620,10 +585,11 @@ int main()
             MovePawnByPlayer(c_SourceX, c_SourceY, c_DestinationX, c_DestinationY);
             ShowAllPawns(); break;
          case 3:
-            mainWindow.draw(MenuBackground);
+            mainWindow.draw(Sprite_MenuBackground);
             mainWindow.draw(GameOver);
             mainWindow.draw(ExitButton); break;
         }
+
         mainWindow.display();
         WindowColorOnClickEvents(mainWindow, Credits);
         WindowColorOnClickEvents(mainWindow, PreviousScreen);
